@@ -436,92 +436,17 @@ button {
   color: #5d576a;
 }
 
-/* ---------- 移动端适配 ---------- */
+.pp-more-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border-radius: 5px;
+  transition: color 0.15s, background 0.15s;
+}
 
-@media (max-width: 640px) {
-  .app-title {
-    font-size: 23px;
-    letter-spacing: 6px;
-    text-indent: 6px;
-  }
-
-  .dynasty-switch button {
-    min-width: 40px;
-    padding: 2px 10px;
-    font-size: 12px;
-  }
-
-  .search-box input {
-    width: 100px;
-    font-size: 11.5px;
-  }
-
-  /* 触屏无 hover，控制栏常驻 */
-  .control-bar {
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .control-bar button {
-    padding: 5px 9px;
-    font-size: 11.5px;
-  }
-
-  .board-zone {
-    padding: 20px 6px 8px;
-  }
-
-  .board-columns {
-    gap: 8px;
-    padding: 0 2px 0 8px;
-  }
-
-  .board-col {
-    width: 31vw;
-  }
-
-  .board-item {
-    font-size: 12px;
-    padding: 2px 5px;
-    gap: 5px;
-  }
-
-  .board-item .b-num {
-    font-size: 11px;
-  }
-
-  .mode-tab {
-    font-size: 11.5px;
-    padding: 8px 3px;
-    letter-spacing: 2px;
-  }
-
-  .poet-panel {
-    width: 178px;
-    right: 8px;
-    top: 40%;
-    max-height: 52%;
-  }
-
-  .poem-card {
-    padding: 22px 24px 18px;
-  }
-
-  .poem-scroll {
-    height: 260px;
-  }
-
-  .p-title {
-    font-size: 17px;
-  }
-
-  .p-line {
-    font-size: 15.5px;
-    letter-spacing: 6px;
-  }
+.pp-more-btn:hover {
+  color: var(--gold-bright);
+  background: rgba(190, 148, 52, 0.12);
 }
 
 /* ---------- 背景音乐开关 ---------- */
@@ -667,4 +592,116 @@ button {
   letter-spacing: 7px;
   margin-left: 13px;
   text-shadow: 0 0 10px rgba(233, 223, 196, 0.14);
+}
+
+/* ---------- 移动端适配 ---------- */
+
+@media (max-width: 640px) {
+  .app-title {
+    font-size: 23px;
+    letter-spacing: 6px;
+    text-indent: 6px;
+  }
+
+  .dynasty-switch button {
+    min-width: 40px;
+    padding: 2px 10px;
+    font-size: 12px;
+  }
+
+  .search-box input {
+    width: 100px;
+    font-size: 11.5px;
+  }
+
+  /* 触屏无 hover，控制栏常驻 */
+  .control-bar {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .control-bar button {
+    padding: 5px 9px;
+    font-size: 11.5px;
+  }
+
+  .board-zone {
+    padding: 20px 6px 8px;
+  }
+
+  .board-columns {
+    gap: 8px;
+    padding: 0 2px 0 8px;
+  }
+
+  .board-col {
+    width: 31vw;
+  }
+
+  .board-item {
+    font-size: 12px;
+    padding: 2px 5px;
+    gap: 5px;
+  }
+
+  .board-item .b-num {
+    font-size: 11px;
+  }
+
+  .mode-tab {
+    font-size: 11.5px;
+    padding: 8px 3px;
+    letter-spacing: 2px;
+  }
+
+  .poet-panel {
+    width: 178px;
+    right: 8px;
+    top: 40%;
+    max-height: 52%;
+  }
+
+  .poem-card {
+    padding: 22px 24px 18px;
+    width: 92vw;
+    max-width: 92vw;
+  }
+
+  /* 移动端改横排（竖排在部分手机浏览器滚动原点异常，配合左缘渐隐会显示为空） */
+  .poem-scroll {
+    writing-mode: horizontal-tb;
+    height: auto;
+    max-height: 66vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: left;
+    letter-spacing: 0;
+  }
+
+  .poem-scroll.fade-more {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .p-title {
+    font-size: 18px;
+    letter-spacing: 3px;
+    margin: 0 0 6px 26px;
+  }
+
+  .p-author {
+    font-size: 12.5px;
+    letter-spacing: 2px;
+    margin: 0 0 14px;
+  }
+
+  .p-line {
+    font-size: 16.5px;
+    letter-spacing: 2px;
+    line-height: 1.9;
+    margin: 0;
+  }
 }

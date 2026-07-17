@@ -12,7 +12,8 @@ export interface PoetRelation {
   targetName: string;
   type: RelationType;
   poems: Poem[];
-  more: number;
+  /** 可点击展开的补充诗作（有才显示"还有N首"） */
+  extra?: Poem[];
 }
 
 export interface Poet {
