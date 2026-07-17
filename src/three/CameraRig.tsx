@@ -7,19 +7,26 @@ import type { GraphData } from '../data/graph';
 import { useStore } from '../store';
 
 const HOME_TARGET = new THREE.Vector3(0, 0, 0);
-const HOME_POS = new THREE.Vector3(0, 10, 138);
-const FOCUS_DIST = 58;
+// 以 720×944 (aspect≈0.76) 为基准调好的距离，按视口宽高比缩放
+const BASE_ASPECT = 0.76;
+const HOME_DIST_BASE = 138;
+const FOCUS_DIST_BASE = 58;
 
 export default function CameraRig({ data }: { data: GraphData }) {
   const controlsRef = useRef<OrbitControlsImpl>(null);
   const camera = useThree((s) => s.camera);
+  const size = useThree((s) => s.size);
   const focusId = useStore((s) => s.focusId);
   const rotating = useStore((s) => s.rotating);
   const resetTick = useStore((s) => s.resetTick);
   const flat = useStore((s) => s.flat);
   const flippedY = useStore((s) => s.flippedY);
 
-  const desired = useRef({ target: HOME_TARGET.clone(), dist: HOME_POS.length(), active: false });
+  const aspect = size.width / size.height;
+  const homeDist = THREE.MathUtils.clamp((HOME_DIST_BASE * BASE_ASPECT) / aspect, 112, 320);
+  const focusDist = THREE.MathUtils.clamp((FOCUS_DIST_BASE * BASE_ASPECT) / aspect, 40, 140);
+
+  const desired = useRef({ target: HOME_TARGET.clone(), dist: homeDist, active: false });
 
   const transform = useMemo(
     () => (v: [number, number, number]) =>
@@ -33,20 +40,20 @@ export default function CameraRig({ data }: { data: GraphData }) {
       const p = data.positions.get(focusId);
       if (p) {
         desired.current.target.copy(transform(p));
-        desired.current.dist = FOCUS_DIST;
+        desired.current.dist = focusDist;
         desired.current.active = true;
         return;
       }
     }
     desired.current.active = false;
-  }, [focusId, data, transform]);
+  }, [focusId, data, transform, focusDist]);
 
-  // 复位
+  // 复位（视口尺寸变化时也保持全图可见）
   useEffect(() => {
     desired.current.target.copy(HOME_TARGET);
-    desired.current.dist = HOME_POS.length();
+    desired.current.dist = homeDist;
     desired.current.active = true;
-  }, [resetTick]);
+  }, [resetTick, homeDist]);
 
   useFrame(() => {
     const controls = controlsRef.current;
@@ -75,7 +82,7 @@ export default function CameraRig({ data }: { data: GraphData }) {
       autoRotate={rotating}
       autoRotateSpeed={0.55}
       minDistance={26}
-      maxDistance={420}
+      maxDistance={460}
       enablePan
     />
   );

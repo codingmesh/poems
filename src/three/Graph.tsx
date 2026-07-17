@@ -54,6 +54,10 @@ function hashVec(seed: number, out: THREE.Vector3): THREE.Vector3 {
 export default function Graph({ data }: { data: GraphData }) {
   const { poets, edges } = data;
   const gl = useThree((s) => s.gl);
+  const isCoarse = useMemo(
+    () => typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches,
+    []
+  );
   const focusId = useStore((s) => s.focusId);
   const selectedId = useStore((s) => s.selectedId);
   const flat = useStore((s) => s.flat);
@@ -386,7 +390,7 @@ export default function Graph({ data }: { data: GraphData }) {
             applyHover(-1);
           }}
         >
-          <sphereGeometry args={[Math.max(4, data.sizes.get(p.id)! * 1.1), 8, 8]} />
+          <sphereGeometry args={[Math.max(isCoarse ? 7.5 : 4, data.sizes.get(p.id)! * (isCoarse ? 1.5 : 1.1)), 8, 8]} />
           <meshBasicMaterial transparent opacity={0} depthWrite={false} colorWrite={false} />
         </mesh>
       ))}
